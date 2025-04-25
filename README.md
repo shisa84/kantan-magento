@@ -78,9 +78,5 @@ disable Two-Factor Authorization
 bin/magento module:disable Magento_TwoFactorAuth Magento_AdminAdobeImsTwoFactorAuth
 bin/magento setup:upgrade
 
-warden db dump | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' | gzip -c > dump_`date "+%Y%m%d%H%M%S"`.sql.gz
-
-
-mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces
 
 

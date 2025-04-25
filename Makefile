@@ -1,3 +1,4 @@
+##@ VARS
 DOCKER_ENV_NAME=`cat .env | grep ENV_NAME | cut -d = -f 2`
 MYSQL_ROOT_PASSWORD=`cat .env | grep MYSQL_ROOT_PASSWORD | cut -d = -f 2`
 MYSQL_DATABASE=`cat .env | grep MYSQL_DATABASE | cut -d = -f 2`
@@ -14,3 +15,7 @@ db-connect:
 db-export:
 	docker exec -i $(DOCKER_ENV_NAME)-db-1 mysqldump -uroot -p$(MYSQL_ROOT_PASSWORD) $(MYSQL_DATABASE) | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' | gzip -c > $(DOCKER_ENV_NAME)_`date "+%Y%m%d%H%M%S"`.sql.gz
 
+db-reset:
+	docker exec $(DOCKER_ENV_NAME)-db-1 bash -c "mysql -u$(MYSQL_USER) -p$(MYSQL_PASSWORD) -e 'DROP DATABASE IF EXISTS $(MYSQL_DATABASE); CREATE DATABASE $(MYSQL_DATABASE);'"
+
+db-reimport: db-reset db-import
