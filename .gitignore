@@ -19,8 +19,11 @@
 !/pub/errors/local.xml
 !/m2-hotfixes
 !package.json
+!composer.json
+!composer.lock
 !.gitignore
 !.env.local
 !README.md
 !Makefile
+!dump.sql.gz
 !auth.json

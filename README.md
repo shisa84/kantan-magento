@@ -52,6 +52,8 @@ bin/magento setup:install \
 --page-cache-redis-db=1 \
 --page-cache-redis-port=6379
 
+more detail on https://experienceleague.adobe.com/ja/docs/commerce-operations/installation-guide/advanced
+
 
 bin/magento config:set --lock-env web/unsecure/base_url \
 "https://kantan-magento.test/"
@@ -75,5 +77,10 @@ bin/magento admin:user:create
 disable Two-Factor Authorization
 bin/magento module:disable Magento_TwoFactorAuth Magento_AdminAdobeImsTwoFactorAuth
 bin/magento setup:upgrade
+
+warden db dump | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' | gzip -c > dump_`date "+%Y%m%d%H%M%S"`.sql.gz
+
+
+mysqldump: Error: 'Access denied; you need (at least one of) the PROCESS privilege(s) for this operation' when trying to dump tablespaces
 
 
