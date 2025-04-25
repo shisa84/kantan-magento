@@ -7,6 +7,7 @@ warden svc up
 ```
 
 ```
+cp .env.local .env
 warden sign-certificate kantan-magento.test
 warden env up
 warden shell
