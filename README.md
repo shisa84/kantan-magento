@@ -1,10 +1,10 @@
 # kantan-magento
 
-How to install
+### How to install
 <details>
 <summary>Kantan install</summary>
 
-Install
+#### Install
 ```
 warden svc up
 cp .env.local .env
@@ -13,7 +13,7 @@ cp app/etc/config.php.local app/etc/config.php
 make env-init
 ```
 
-Reinstall
+#### Reinstall
 ```
 warden svc up
 warden env up
@@ -28,7 +28,7 @@ make env-reinstall-hard
 ```
 warden svc up
 ```
-
+Make sure there is no `app/etc/env.php` and `app/etc/config.php` files before to install Magento 
 ```
 cp .env.local .env
 warden sign-certificate kantan-magento.test
@@ -108,7 +108,7 @@ bin/magento setup:upgrade
 </details>
 
 
-How to clear docker volumes
+### How to clear docker volumes
 ```
 make db-reset env-down-all
 ```
