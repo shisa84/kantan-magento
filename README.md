@@ -1,6 +1,29 @@
 # kantan-magento
 
-Install from scratch
+How to install
+<details>
+<summary>Kantan install</summary>
+
+Install
+```
+warden svc up
+cp .env.local .env
+cp app/etc/env.php.local app/etc/env.php
+cp app/etc/config.php.local app/etc/config.php
+make env-init
+```
+
+Reinstall
+```
+warden svc up
+warden env up
+make env-reinstall-hard
+```
+
+</details>
+
+<details>
+<summary>Install from scratch</summary>
 
 ```
 warden svc up
@@ -12,16 +35,7 @@ warden sign-certificate kantan-magento.test
 warden env up
 warden shell
 
-META_PACKAGE=magento/project-community-edition 
-META_VERSION=2.4.8
-
-composer create-project --repository-url=https://repo.magento.com/ "${META_PACKAGE}" /tmp/haisaishisa "${META_VERSION}"
-```
-Use credentials in auth.json to download Magento's packages
-
-```
-rsync -a /tmp/haisaishisa/ /var/www/html/
-rm -rf /tmp/haisaishisa/
+composer install
 
 bin/magento setup:install \
 --backend-frontname=admin \
@@ -33,6 +47,9 @@ bin/magento setup:install \
 --db-name=magento \
 --db-user=magento \
 --db-password=magento \
+--language=ja_JP \
+--currency=JPY \
+--timezone=Asia/Tokyo \
 --search-engine=opensearch \
 --opensearch-host=opensearch \
 --opensearch-port=9200 \
@@ -58,12 +75,13 @@ bin/magento setup:install \
 More detail on https://experienceleague.adobe.com/ja/docs/commerce-operations/installation-guide/advanced
 
 ```
+bin/magento config:set --lock-env web/seo/use_rewrites 1
 bin/magento config:set --lock-env web/unsecure/base_url "https://kantan-magento.test/"
 bin/magento config:set --lock-env web/secure/base_url "https://kantan-magento.test/"
 bin/magento deploy:mode:set -s developer
 ```
 
-Depending to you OS/setup, you may need get the dns error when you try to access
+Depending to your OS/setup, you may get the dns error when you try to access
 DNS_PROBE_FINISHED_NXDOMAIN
 
 Edit the hosts file
@@ -80,4 +98,17 @@ disable Two-Factor Authorization
 ```
 bin/magento module:disable Magento_TwoFactorAuth Magento_AdminAdobeImsTwoFactorAuth
 bin/magento setup:upgrade
+```
+
+Install japanese language pack
+```
+composer require mageplaza/magento-2-japanese-language-pack:dev-master
+bin/magento setup:upgrade
+```
+</details>
+
+
+How to clear docker volumes
+```
+make db-reset env-down-all
 ```
